@@ -107,22 +107,49 @@ const categories = [
   { name: "Office Space", img: "https://cdn-icons-png.flaticon.com/512/1048/1048953.png" },
   { name: "Modern Land", img: "https://cdn-icons-png.flaticon.com/512/2913/2913520.png" },
   { name: "Townhouse", img: "https://cdn-icons-png.flaticon.com/512/1239/1239525.png" },
-  { name: "Studio Flat", img: "https://cdn-icons-png.flaticon.com/512/2311/2311409.png" }, // নতুন
-  { name: "Beach House", img: "https://cdn-icons-png.flaticon.com/512/2111/2111320.png" }, // নতুন
+  { name: "Studio Flat", img: "https://cdn-icons-png.flaticon.com/512/2311/2311409.png" },
+  { name: "Beach House", img: "https://cdn-icons-png.flaticon.com/512/2111/2111320.png" },
 ];
 
 const CategoryExplorer = () => {
   return (
-    <section className="relative py-32 bg-white dark:bg-slate-950 overflow-hidden min-h-[900px] flex items-center justify-center">
+    <section className="relative py-32 bg-white dark:bg-slate-950 overflow-hidden min-h-[1000px] flex flex-col items-center justify-center">
       
-      {/* Background Decorative Rings */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="absolute w-[350px] h-[350px] md:w-[500px] md:h-[500px] border border-dashed border-slate-200 dark:border-slate-800 rounded-full animate-[spin_80s_linear_infinite]" />
-        <div className="absolute w-[550px] h-[550px] md:w-[750px] md:h-[750px] border border-slate-100 dark:border-slate-900 rounded-full" />
+      {/* --- Section Heading --- */}
+      <div className="relative z-30 text-center mb-10 px-6">
+        <motion.span 
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-blue-600 font-bold uppercase tracking-[0.3em] text-xs mb-3 block"
+        >
+          Property Categories
+        </motion.span>
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white leading-tight"
+        >
+          Find Your <span className="text-blue-600">Perfect</span> Space
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-slate-500 dark:text-slate-400 mt-4 max-w-lg mx-auto text-sm md:text-base"
+        >
+          Explore a wide range of property types tailored to fit your lifestyle and professional needs.
+        </motion.p>
       </div>
 
-      <div className="relative w-full max-w-6xl h-[700px] flex items-center justify-center">
+      {/* --- Orbital UI Container --- */}
+      <div className="relative w-full max-w-6xl h-[600px] md:h-[700px] flex items-center justify-center">
         
+        {/* Background Decorative Rings */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute w-[350px] h-[350px] md:w-[500px] md:h-[500px] border border-dashed border-slate-200 dark:border-slate-800 rounded-full animate-[spin_80s_linear_infinite]" />
+          <div className="absolute w-[550px] h-[550px] md:w-[750px] md:h-[750px] border border-slate-100 dark:border-slate-900 rounded-full" />
+        </div>
+
         {/* --- Central Core --- */}
         <div className="relative flex items-center justify-center z-20">
           <motion.div 
@@ -152,10 +179,8 @@ const CategoryExplorer = () => {
 
         {/* --- Orbiting Items --- */}
         {categories.map((cat, i) => {
-          // আইটেম বাড়লে অটোমেটিক এঙ্গেল ভাগ করে নেবে
           const angle = (i * (360 / categories.length)) - 90; 
-          // আইটেম বেশি হলে রেডিয়াস একটু বাড়িয়ে দিলাম (Desktop: 300px)
-          const radius = typeof window !== 'undefined' && window.innerWidth < 768 ? 150 : 310; 
+          const radius = typeof window !== 'undefined' && window.innerWidth < 768 ? 140 : 310; 
 
           return (
             <motion.div
@@ -172,7 +197,7 @@ const CategoryExplorer = () => {
             >
               <div className="relative flex flex-col items-center">
                 
-                {/* Item Circle - আইটেম বেশি বলে সাইজ সামান্য ছোট (md:w-28) */}
+                {/* Item Circle */}
                 <motion.div 
                   whileHover={{ scale: 1.15, rotate: 8 }}
                   className="w-16 h-16 md:w-28 md:h-28 bg-white dark:bg-slate-900 rounded-full shadow-2xl border border-slate-100 dark:border-slate-800 flex items-center justify-center p-4 md:p-7 cursor-pointer transition-all duration-300 group-hover:border-blue-500 group-hover:shadow-blue-500/20"
@@ -202,7 +227,6 @@ const CategoryExplorer = () => {
                      className="text-blue-100 dark:text-blue-900/30"
                      initial={{ pathLength: 0 }}
                      whileInView={{ pathLength: 1 }}
-                     viewport={{ once: false }}
                      transition={{ duration: 1.2, delay: 0.2 }}
                    />
                 </svg>
@@ -210,7 +234,6 @@ const CategoryExplorer = () => {
             </motion.div>
           );
         })}
-
       </div>
     </section>
   );
