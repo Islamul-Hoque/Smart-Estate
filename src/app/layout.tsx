@@ -26,15 +26,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
+      {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 
       >
+        <body className="antialiased selection:bg-blue-100">
+        <Navbar />
+         
+        <main className="pt-20 lg:pt-24 bg-[#F8FAFC] min-h-screen">
+          {children}
+        </main>
+      </body>
+      </body>
+    </html>
+  );
+} */}
+
+
+      <body className="antialiased selection:bg-blue-100">
         <Navbar />
         
+        <main className="pt-20 lg:pt-24 bg-[#F8FAFC] min-h-screen">
           {children}
-        
-        <Footer />
+        </main>
       </body>
     </html>
   );
