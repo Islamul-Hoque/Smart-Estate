@@ -8,7 +8,6 @@ import * as z from "zod";
 import { motion } from "framer-motion";
 import { User, Mail, Lock, ArrowRight, Camera, X, ShoppingBag, Store } from "lucide-react";
 
-// --- Validation Schema ---
 const registerSchema = z.object({
     name: z.string().min(3, "Name must be at least 3 characters"),
     email: z.string().email("Invalid email address"),
@@ -45,10 +44,50 @@ const RegisterPage = () => {
         }
     };
 
-    const onSubmit = async (data: RegisterFormData) => {
-        console.log("Registered Data:", data);
-        // ব্যাকএন্ড API কল এখানে হবে
-    };
+const onSubmit = async (data: RegisterFormData) => {
+    try {
+        let imageUrl = "";
+
+        // ১. ইমেজ আপলোড (ImgBB ব্যবহার করা হয়েছে উদাহরণ হিসেবে)
+        const imageFile = fileInputRef.current?.files?.[0];
+        if (imageFile) {
+            const formData = new FormData();
+            formData.append("image", imageFile);
+            
+            
+            const imgBBKey = "09b7c79a53f1dc7b14d0028f9ed46de6"; 
+            const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${imgBBKey}`, {
+                method: "POST",
+                body: formData,
+            });
+            const imgData = await imgRes.json();
+            imageUrl = imgData.data.display_url;
+        }
+
+        // ২. ব্যাকএন্ড সার্ভারে ডেটা পাঠানো
+        const registrationData = { ...data, image: imageUrl };
+
+        const response = await fetch("http://127.0.0.1:5000/api/v1/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(registrationData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Registration Successful!");
+            // সফল হলে লগইন পেজে পাঠিয়ে দিন
+            // router.push("/login"); 
+        } else {
+            alert(result.message || "Something went wrong!");
+        }
+    } catch (error) {
+        console.error("Registration Error:", error);
+        alert("Server error, try again later.");
+    }
+};
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-6 py-20">
